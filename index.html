@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SmartOSC</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="webstyle.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script language="javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <header class="top">
+        <div class="header-top">
+
+                <div class="row">
+                    <div class="header">
+                        <div class="col-md-3 col-xs-9 col-sm-6">
+                            <ul class="icons list-unstyled">
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-youtube fa-2x" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-facebook fa-2x" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-google-plus fa-2x" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-9 col-xs-3 col-sm-6 header-right">
+                            <div class="info">
+                            <a href="#">
+
+                                <i class="fa fa-user fa-2x" aria-hidden="true"> Dao Van Tuan</i>
+                            </a>
+                            </div>
+                            <div class="info">
+                            <a href="#">
+                                <i class="fa fa-map-marker fa-2x" aria-hidden="true"> Handico-Mễ Trì-Từ Liêm-Hà
+                                    Nội</i>
+                            </a>
+                            </div>
+                            <div class="info">
+                            <a href="#">
+                                <i class="fa fa-phone fa-2x" aria-hidden="true"> 098.964.87 97</i>
+                            </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="header-middle">
+            <button onclick="myFunctionCustomer()" type="button" class="btn btn-info btn-lg" >Customer</button>
+            <button onclick="myFunctionProduct()" type="button" class="btn btn-info btn-lg" >Product</button>
+            <button onclick="myFunctionPayment()" type="button" class="btn btn-info btn-lg" >Payment</button>
+            <button onclick="myFunctionShipping()" type="button" class="btn btn-info btn-lg">Shipping</button>
+        </div>
+    </header>
+    <div class="maincontent">
+        <div class="customer" id="div_customer" style="display: none" onload="getCustomer()">
+            <div class="">
+                <div class="customer">
+                    <div class="title">
+                        <h2 style="background-color: tomato">CUSTOMER</h2>
+                    </div>
+
+                    <table id="customer" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th style="width: 20px;text-align: center;">Customer ID</th>
+                            <th style="width: 200px;">First Name</th>
+                            <th style="text-align: center;">Last Name</th>
+                            <th style="text-align: center;">Action</th>
+                        </tr>
+                        </thead>
+
+                    </table>
+                </div>
+                <div class="col-sm-6 customerdetail">
+                    <div class="title">
+                        <h2 id="customerdetail"></h2>
+                    </div>
+                    <table class="table table-bordered" id="customer_detail">
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="product" id="myDiv_product" style="display: none" onload="getProduct()">
+            <div class="row">
+                <div class="col-sm-8 product">
+                    <div class="title">
+                        <h2 style="background-color: tomato">PRODUCT</h2>
+                    </div>
+
+                    <table id="product" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th style="text-align: center;">Product ID</th>
+                            <th style="text-align: center">Type ID</th>
+                            <th style="text-align: center;">Name</th>
+                            <th style="text-align: center;">Sku</th>
+                            <th style="text-align: center;">Price</th>
+                            <th style="text-align: center;">Show Detail</th>
+                            <th style="text-align: center;">Add To Cart</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="col-sm-4 product">
+                    <div class="title">
+                        <h2 style="background-color: tomato" id="choosedproducts"></h2>
+                    </div>
+                    <table class="table table-bordered" id="choosed_products">
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="payment" id="div_payment" style="display: none">
+            <div class="title">
+                <h2 style="background-color: tomato">PAYMENT</h2>
+            </div>
+            <table class="table table-bordered" id="payment">
+
+            </table>
+        </div>
+        <div class="shipping" id="myDiv_shipping" style="display: none">
+            <div class="title">
+                <h2 style="background-color: tomato">SHIPPING</h2>
+            </div>
+            <table class="table table-bordered" id="shipping">
+
+            </table>
+        </div>
+    </div>
+    <div class="footer">
+        <!--footer-->
+    </div>
+
+
+</div>
+<script>
+    $(window).load(function () {
+        // do something
+        customertable.clear();
+        getCustomer();
+    });
+    function myFunctionCustomer() {
+        var x = document.getElementById("div_customer");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+</script>
+
+<script>
+    function getCustomer() {
+        customertable.clear();
+        jQuery.ajax({
+            type: "GET", //phuong thuc lay data
+            dataType: "html", //data tra ve dang html
+            url: "http://mage1.dev/index.php/helloworld/index/customer",
+            data: {} // list attribute return
+        }).done(function (html) {
+            var returnMsg = jQuery.parseJSON(html); //ép kiểu
+            console.log(typeof returnMsg)
+            customerData = prepareDataForCustomerTable(returnMsg);
+            customertable.rows.add(customerData); // Add new data
+            customertable.columns.adjust().draw(); // Redraw the DataTable
+        });
+    }
+
+//    function toObject(arr) {
+//        var rv = {};
+//        for (var i = 0; i < arr.length; ++i)
+//            rv[i] = arr[i];
+//        return rv;
+//    }
+
+    function prepareDataForCustomerTable(customers) {
+//        console.log(customers);
+        var data = [];
+        if (customers == null) {
+            return []
+        }
+        ;
+
+//
+//        customers = toObject(customers);
+//        console.log(typeof customers);
+        jQuery.each(customers, function (kos, customer) {
+            //push cac attribute cua doi tuong vao mang
+            //mang cac doi tuong.
+            data.push([
+                customer.entity_id,
+                customer.firstname,
+                customer.lastname,
+                customer.email,
+                customer.group_id
+            ]);
+        });
+        customerData = data;
+        return data;
+    }
+
+    function format(d) {
+        // `d` is the original data object for the row
+        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; background: tomato">' +
+            '<tr>' +
+            '<td>Entity_id:</td>' +
+            '<td>' + d[0] + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>First Name:</td>' +
+            '<td>' + d[1] + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>Last Name:</td>' +
+            '<td>' + d[2] + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>Email:</td>' +
+            '<td>' + d[3] + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>Group_ID:</td>' +
+            '<td>' + d[4] + '</td>' +
+            '</tr>' +
+            '</table>';
+    }
+
+
+    $(document).ready(function () {
+        customertable = $('#customer').DataTable({
+            "searching": true,
+            'bSort': false,
+            'aoColumns': [
+                {sWidth: "45%", bSearchable: true, bSortable: false},
+                {sWidth: "45%", bSearchable: true, bSortable: false},
+                {sWidth: "10%", bSearchable: true, bSortable: false},
+
+                {
+                    "className": 'details-control',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": ''
+                }
+            ],
+            "scrollCollapse": true,
+            "info": true,
+            "paging": true
+
+        });
+    });
+
+
+    // Add event listener for opening and closing details
+    $('#customer').on('click', '.details-control', function () {//bat su kien onclick
+        var tr = $(this).closest('tr'); //chon thanh phan tr.
+        var row = customertable.row(tr);
+        console.log(row.data());
+
+        if (row.child.isShown()) {//kiem tra neu row.child.isShown thi hide nguoc lai thi shown
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            // Open this row
+            row.child(format(row.data())).show();
+            tr.addClass('shown');
+        }
+    });
+
+
+
+
+
+</script>
+
+
+
+<script>
+    var arr=[];
+    $(window).load(function () {
+        producttable.clear();
+        getProduct();
+    })
+    function myFunctionProduct() {
+        var x = document.getElementById("myDiv_product");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+    function getProduct() {
+        producttable.clear();
+        jQuery.ajax({
+            type:"GET",
+            dataType:"html", //
+            url:"http://mage1.dev/index.php/helloworld/index/product",
+            data:{}
+        }).done(function (html) {
+            var returnMsg = jQuery.parseJSON(html);
+            productData =prepareDataForProductTable(returnMsg);
+            producttable.rows.add(productData);
+            producttable.columns.adjust().draw();
+
+        })
+    }
+//    function toObject(arr) {
+//        var rv ={};
+//        for (var i =0;i<arr.length;++i)
+//            rv[i] =arr[i];
+//        return rv;
+//
+//    }
+    function prepareDataForProductTable(product) {
+        var data=[];
+        if(product == null){
+            return []
+        }
+//        product =toObject(product);
+        jQuery.each(product, function (kos, pro) {
+            data.push([
+                //push cac attribute cua doi tuong vao mang
+                //mang cac doi tuong.
+                pro.entity_id,
+                pro.type_id,
+                pro.name,
+                pro.sku,
+                pro.price
+
+            ])
+
+        })
+        productData =data;
+        //console.log(productData);
+        return data;
+    }
+
+    $(document).ready(function () {
+        producttable = $('#product').DataTable({
+            "searching": true,
+            'bSort': false,
+            'aoColumns': [
+                {sWidth: "5%", bSearchable: true, bSortable: false},
+                {sWidth: "5%", bSearchable: true, bSortable: false},
+                {sWidth: "40%", bSearchable: true, bSortable: false},
+                {sWidth: "30%", bSearchable: true, bSortable: false},
+                {sWidth: "20%", bSearchable: true, bSortable: false},
+                {
+                    "className": 'details-control',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": ''
+                },
+                {
+                    "className": 'add-to-cart',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": "<button>Add To Cart</button>"
+                }
+
+            ],
+            "scrollCollapse": true,
+            "info": true,
+            "paging": true
+
+        });
+    });
+    function format(d) {
+        // `d` is the original data object for the row
+        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; background: tomato">' +
+            '<tr>' +
+            '<td>Entity_ID:</td>' +
+            '<td>' + d[0] + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>Type_ID:</td>' +
+            '<td>' + d[1] + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>Name:</td>' +
+            '<td>' + d[2] + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>SKU:</td>' +
+            '<td>' + d[3] + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>Price:</td>' +
+            '<td>' + d[4] + '</td>' +
+            '</tr>' +
+            '</table>';
+    }
+    $('#product').on('click', '.details-control', function () {
+        var tr = $(this).closest('tr');
+
+        var row = producttable.row(tr);
+        console.log(row);
+//        console.log(row.data());
+
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            // Open this row
+            row.child(format(row.data())).show();
+            tr.addClass('shown');
+        }
+    });
+    $('#product').on('click','.add-to-cart', function () {
+        var tr =$(this).closest('tr');
+        var row =producttable.row(tr);
+        var obj =new Object();
+        obj.entity_id = row.data()[0];
+        obj.type_id = row.data()[1];
+        obj.name =row.data()[2];
+        obj.sku =row.data()[3];
+        obj.price =row.data()[4];
+        arr.push(obj);
+        var i;
+        var table = "<tr><th>ENTITY_ID</th><th>TYPE_ID</th><th>NAME</th><th>SKU</th><th>PRICE</th></tr>";
+        for (i = 0; i < arr.length; i++) {
+            table += "<tr><td>" +
+                arr[i]["entity_id"] +
+                "</td><td>" +
+                arr[i]["type_id"] +
+                "</td><td>" +
+                arr[i]["name"] +
+                "</td><td>" +
+                arr[i]["sku"] +
+                "</td><td>" +
+                arr[i]["price"] +
+                "</td></tr>"
+        }
+        table += "<tr><td style='text-align: center' colspan='5'><input type='button' style='background-color: #d4d4aa' name='checkout' value='CHECK OUT'></td></tr> ";
+        jQuery("#choosed_products").html(table);
+        jQuery("#choosedproducts").html('CHOOSED PRODUCTS')
+
+
+
+
+    })
+
+
+</script>
+
+<script>
+
+    function myFunctionPayment() {
+        var x = document.getElementById("div_payment");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
+    $.getJSON('http://mage1.dev/index.php/helloworld/index/payment', function (data) {
+        console.log(data);
+        var checkbox = document.createElement('input');
+        var i;
+        var table = "<tr><th>LABEL</th><th>VALUE</th></tr>";
+        for (i = 0; i < data.length; i++) {
+            table += "<tr><td>" +
+                data[i]["label"] +
+                "</td><td>" +
+                data[i]["value"] +
+                "</td></tr>"
+        }
+        console.log(table);
+        jQuery("#payment").html(table);
+    });
+</script>
+<script>
+    function myFunctionShipping() {
+        var x = document.getElementById("myDiv_shipping");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+    $.getJSON('http://mage1.dev/index.php/helloworld/index/shipping', function (data) {
+        console.log(data);
+        var checkbox = document.createElement('input');
+        var i;
+        var table = "<tr><th>LABEL</th><th>VALUE</th></tr>";
+        for (i = 0; i < data.length; i++) {
+            table += "<tr><td>" +
+                data[i]["label"] +
+                "</td><td>" +
+                data[i]["value"] +
+                "</td></tr>"
+        }
+        console.log(table);
+        jQuery("#shipping").html(table);
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+
+.header{
+    background:#d4d4aa ;
+    height: 45px;
+    line-height: 45px;
+}
+
+li {
+    float: left;
+    margin-top: 5px;
+    line-height: 45px;
+    margin-left: 20px;
+
+
+}
+td.details-control {
+    background: url('../details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('../details_close.png') no-repeat center center;
+}
+
+
+.info i{
+    font-size: 16px;
+    margin-top: 13px;
+    float: right;
+    margin-right: 10px;
+
+}
+#myDiv_product > div{
+    float: left;
+}
+.header-middle{
+    text-align: center;
+    margin-top: 30px;
+}
+.title{float: left}
