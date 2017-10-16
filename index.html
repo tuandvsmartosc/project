@@ -183,7 +183,7 @@
             data: {} // list attribute return
         }).done(function (html) {
             var returnMsg = jQuery.parseJSON(html); //ép kiểu
-            console.log(typeof returnMsg)
+//            console.log(typeof returnMsg)
             customerData = prepareDataForCustomerTable(returnMsg);
             customertable.rows.add(customerData); // Add new data
             customertable.columns.adjust().draw(); // Redraw the DataTable
@@ -223,7 +223,7 @@
         return data;
     }
 
-    function format(d) {
+    function format1(d) {
         // `d` is the original data object for the row
         return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; background: tomato">' +
             '<tr>' +
@@ -287,7 +287,7 @@
         }
         else {
             // Open this row
-            row.child(format(row.data())).show();
+            row.child(format1(row.data())).show();
             tr.addClass('shown');
         }
     });
