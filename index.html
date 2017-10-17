@@ -77,7 +77,7 @@
             <div class="">
                 <div class="customer">
                     <div class="title">
-                        <h2 style="background-color: tomato">CUSTOMER</h2>
+                        <h2 style="background-color: #5bc0de">CUSTOMER</h2>
                     </div>
 
                     <table id="customer" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -107,7 +107,7 @@
             <div class="row">
                 <div class="col-sm-8 product">
                     <div class="title">
-                        <h2 style="background-color: tomato">PRODUCT</h2>
+                        <h2 style="background-color: #5bc0de">PRODUCT</h2>
                     </div>
 
                     <table id="product" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -126,17 +126,36 @@
                 </div>
                 <div class="col-sm-4 product">
                     <div class="title">
-                        <h2 style="background-color: tomato" id="choosedproducts"></h2>
+                        <h2 style="background-color: #5bc0de" id="choosedproducts"></h2>
                     </div>
                     <table class="table table-bordered" id="choosed_products">
-
                     </table>
+                    <div class="checkout" id="myDiv_checkout" style="display: none" >
+
+                            First Name:<br>
+                            <input type="text" name="firstname" placeholder="First Name"><br>
+                            Last Name :<br>
+                            <input type="text" name="lastname" placeholder="Last Name"><br>
+                            Email :<br>
+                            <input type="text" name="email" placeholder="Email"><br>
+                            Address :<br>
+                            <input type="text" name="address" placeholder="Address"><br>
+                            Shipping Street :<br>
+                            <input type="text" name="shippingstreet" placeholder="Shipping Street"><br>
+                            Billding City :<br>
+                            <input type="text" name="billding" placeholder="Billding City"><br>
+                            Phone Number :<br>
+                            <input type="text" name="phonenumber" placeholder="Phone Number"><br><br>
+                            <input type="button" value="CHECK OUT">
+
+
+                    </div>
                 </div>
             </div>
         </div>
         <div class="payment" id="div_payment" style="display: none">
             <div class="title">
-                <h2 style="background-color: tomato">PAYMENT</h2>
+                <h2 style="background-color: #5bc0de">PAYMENT</h2>
             </div>
             <table class="table table-bordered" id="payment">
 
@@ -144,7 +163,7 @@
         </div>
         <div class="shipping" id="myDiv_shipping" style="display: none">
             <div class="title">
-                <h2 style="background-color: tomato">SHIPPING</h2>
+                <h2 style="background-color: #5bc0de">SHIPPING</h2>
             </div>
             <table class="table table-bordered" id="shipping">
 
@@ -160,11 +179,19 @@
 <script>
     $(window).load(function () {
         // do something
-        customertable.clear();
+
         getCustomer();
     });
     function myFunctionCustomer() {
         var x = document.getElementById("div_customer");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+    function myFunctionCheckout() {
+        var x = document.getElementById("myDiv_checkout");
         if (x.style.display === "none") {
             x.style.display = "block";
         } else {
@@ -180,7 +207,7 @@
             type: "GET", //phuong thuc lay data
             dataType: "html", //data tra ve dang html
             url: "http://mage1.dev/index.php/helloworld/index/customer",
-            data: {} // list attribute return
+            data: {}
         }).done(function (html) {
             var returnMsg = jQuery.parseJSON(html); //ép kiểu
 //            console.log(typeof returnMsg)
@@ -216,7 +243,10 @@
                 customer.firstname,
                 customer.lastname,
                 customer.email,
-                customer.group_id
+                customer.group_id,
+                customer.shipping_street,
+                customer.billing_city,
+                customer.shipping_telephone
             ]);
         });
         customerData = data;
@@ -227,24 +257,36 @@
         // `d` is the original data object for the row
         return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; background: tomato">' +
             '<tr>' +
-            '<td>Entity_id:</td>' +
+            '<td><strong>Entity_id:</strong></td>' +
             '<td>' + d[0] + '</td>' +
             '</tr>' +
             '<tr>' +
-            '<td>First Name:</td>' +
+            '<td><strong>First Name:</strong></td>' +
             '<td>' + d[1] + '</td>' +
             '</tr>' +
             '<tr>' +
-            '<td>Last Name:</td>' +
+            '<td><strong>Last Name:</strong></td>' +
             '<td>' + d[2] + '</td>' +
             '</tr>' +
             '<tr>' +
-            '<td>Email:</td>' +
+            '<td><strong>Email:</strong></td>' +
             '<td>' + d[3] + '</td>' +
             '</tr>' +
             '<tr>' +
-            '<td>Group_ID:</td>' +
+            '<td><strong>Group_ID:</strong></td>' +
             '<td>' + d[4] + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td><strong>Shipping_Street:</strong></td>' +
+            '<td>' + d[5] + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td><strong>Billing_City:</strong></td>' +
+            '<td>' + d[6] + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td><strong>Shipping_Telephone:</strong></td>' +
+            '<td>' + d[7] + '</td>' +
             '</tr>' +
             '</table>';
     }
@@ -280,12 +322,13 @@
         var row = customertable.row(tr);
         console.log(row.data());
 
-        if (row.child.isShown()) {//kiem tra neu row.child.isShown thi hide nguoc lai thi shown
+        if (row.child.isShown()) {//kiem tra neu row.child.isShown thi hide
             // This row is already open - close it
             row.child.hide();
             tr.removeClass('shown');
         }
         else {
+            // nguoc lai thi shown
             // Open this row
             row.child(format1(row.data())).show();
             tr.addClass('shown');
@@ -394,23 +437,23 @@
         // `d` is the original data object for the row
         return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; background: tomato">' +
             '<tr>' +
-            '<td>Entity_ID:</td>' +
+            '<td><strong>Entity_ID:</strong></td>' +
             '<td>' + d[0] + '</td>' +
             '</tr>' +
             '<tr>' +
-            '<td>Type_ID:</td>' +
+            '<td><strong>Type_ID:</strong></td>' +
             '<td>' + d[1] + '</td>' +
             '</tr>' +
             '<tr>' +
-            '<td>Name:</td>' +
+            '<td><strong>Name:</strong></td>' +
             '<td>' + d[2] + '</td>' +
             '</tr>' +
             '<tr>' +
-            '<td>SKU:</td>' +
+            '<td><strong>SKU:</strong></td>' +
             '<td>' + d[3] + '</td>' +
             '</tr>' +
             '<tr>' +
-            '<td>Price:</td>' +
+            '<td><strong>Price:</strong></td>' +
             '<td>' + d[4] + '</td>' +
             '</tr>' +
             '</table>';
@@ -444,7 +487,7 @@
         obj.price =row.data()[4];
         arr.push(obj);
         var i;
-        var table = "<tr><th>ENTITY_ID</th><th>TYPE_ID</th><th>NAME</th><th>SKU</th><th>PRICE</th></tr>";
+        var table = "<tr><th>ENTITY_ID</th><th>TYPE_ID</th><th>NAME</th><th>SKU</th><th>PRICE</th><th>Action</th></tr>";
         for (i = 0; i < arr.length; i++) {
             table += "<tr><td>" +
                 arr[i]["entity_id"] +
@@ -456,11 +499,18 @@
                 arr[i]["sku"] +
                 "</td><td>" +
                 arr[i]["price"] +
+                "</td><td>" +
+                    "<input type='button' value='REMOVE' class='remove'>"
                 "</td></tr>"
         }
-        table += "<tr><td style='text-align: center' colspan='5'><input type='button' style='background-color: #d4d4aa' name='checkout' value='CHECK OUT'></td></tr> ";
+        table += "<tr><td style='text-align: center' onclick='myFunctionCheckout()' colspan='5'><input type='button' style='background-color: #d4d4aa' name='checkout' value='CHECK OUT'></td></tr> ";
         jQuery("#choosed_products").html(table);
         jQuery("#choosedproducts").html('CHOOSED PRODUCTS')
+        $('#choosed_products').on('click','.remove', function () {
+
+            $(this).closest('tr').remove();
+            return false;
+        } )
 
 
 
