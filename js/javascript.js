@@ -193,7 +193,7 @@ $(document).ready(function () {
                                                  "className"     : 'select-customer',
                                                  "orderable"     : false,
                                                  "data"          : null,
-                                                 "defaultContent": "<button onclick='myFunctionCheckout()' style='background-color: #d4d4aa'>Select Customer</button>"
+                                                 "defaultContent": "<button onclick='' style='background-color: #d4d4aa'>Select Customer</button>"
                                                }
                                              ],
                                              "scrollCollapse": true,
@@ -231,6 +231,7 @@ $('#customer').on('click', '.select-customer', function () {
   console.log(email);
   jQuery("#email-customer").html(email);
   jQuery("#customer-id").html(customer_id);
+  jQuery("#choosedcustomer").html("Choosed Customer : "+ email);
   var storeID = 1;
   jQuery("#storeid").val(storeID);
   
@@ -240,6 +241,7 @@ jQuery("#product-quanity").html(quantity);
 jQuery("#payment-method").html(paymentMethod);
 jQuery("#shipping-method").html(shippingMethod);
 jQuery("#stored-id").html(storedId);
+
 
 $(window).load(function () {
   producttable.clear();
@@ -305,33 +307,33 @@ function prepareDataForProductTable(product) {
 
 $(document).ready(function () {
   producttable = $('#product').DataTable({
-         "searching"     : true,
-         'bSort'         : false,
-         'aoColumns'     : [
-           {bSearchable: true, bSortable: false},
-           {bSearchable: true, bSortable: false},
-           {bSearchable: true, bSortable: false},
-           {bSearchable: true, bSortable: false},
-           {bSearchable: true, bSortable: false},
-           {
-             "className"     : 'details-control',
-             "orderable"     : false,
-             "data"          : null,
-             "defaultContent": ''
-           },
-           {
-             "className"     : 'add-to-cart',
-             "orderable"     : false,
-             "data"          : null,
-             "defaultContent": "<button style='background-color: #d4d4aa'>Add To Cart</button>"
-           }
+               "searching"     : true,
+               'bSort'         : false,
+               'aoColumns'     : [
+                 {bSearchable: true, bSortable: false},
+                 {bSearchable: true, bSortable: false},
+                 {bSearchable: true, bSortable: false},
+                 {bSearchable: true, bSortable: false},
+                 {bSearchable: true, bSortable: false},
+                 {
+                   "className"     : 'details-control',
+                   "orderable"     : false,
+                   "data"          : null,
+                   "defaultContent": ''
+                 },
+                 {
+                   "className"     : 'add-to-cart',
+                   "orderable"     : false,
+                   "data"          : null,
+                   "defaultContent": "<button style='background-color: #d4d4aa'>Add To Cart</button>"
+                 }
 
-         ],
-         "scrollCollapse": true,
-         "info"          : true,
-         "paging"        : true
+               ],
+               "scrollCollapse": true,
+               "info"          : true,
+               "paging"        : true
 
-       });
+             });
 });
 
 function format(d) {
@@ -417,13 +419,17 @@ $('#product').on('click', '.add-to-cart', function () {
   }
   
   table +=
-    '<tr><td style="text-align: center"  colspan="6"><input type="button" style="background-color: #d4d4aa" name="checkout" value="CHECK OUT"></td></tr> ';
+    '<tr><td style="text-align: center"  colspan="6"><input type="button" style="background-color: #d4d4aa" id="checkout" onclick="myFunctionCheckout()" name="checkout" value="CHECK OUT"></td></tr> ';
   jQuery("#choosed_products").html(table);
   jQuery("#choosedproducts").html('CHOOSED PRODUCTS')
   $('#choosed_products').on('click', '.remove', function () {
     
     $(this).closest('tr').remove();
     return false;
+  })
+  $('#choosed_products').on('click', '#checkout', function () {
+  
+    jQuery("#Order").html('ORDER');
   })
   
 })
