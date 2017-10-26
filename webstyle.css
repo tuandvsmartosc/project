@@ -20,7 +20,9 @@ td.details-control {
 tr.shown td.details-control {
     background: url('../details_close.png') no-repeat center center;
 }
-
+th {
+    padding: 5px !important;
+}
 
 .info i{
     font-size: 16px;
@@ -37,3 +39,10 @@ tr.shown td.details-control {
     margin-top: 30px;
 }
 .title{float: left}
+.select-customer{
+    text-align: center;
+}
+#table-checkout tr td{
+    border: 1px solid black;
+    border-collapse: collapse;
+}

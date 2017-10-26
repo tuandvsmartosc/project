@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head>    <meta charset="UTF-8">    <title>Title</title>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
@@ -492,29 +494,29 @@
 
 </body>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#example').DataTable();
-    } );
+    });
 </script>
 <script>
     //customer
-$(document).ready(function () {
-$('#customer').dataTable({
-'bSort': false,
-'aoColumns': [
-{sWidth: "45%", bSearchable: false, bSortable: false},
-{sWidth: "45%", bSearchable: false, bSortable: false},
-{sWidth: "10%", bSearchable: false, bSortable: false}
-],
-"scrollY": "200px",
-"scrollCollapse": true,
-"info": true,
-"paging": true
-});
-});
+    $(document).ready(function () {
+        $('#customer').dataTable({
+            'bSort': false,
+            'aoColumns': [
+                {sWidth: "45%", bSearchable: false, bSortable: false},
+                {sWidth: "45%", bSearchable: false, bSortable: false},
+                {sWidth: "10%", bSearchable: false, bSortable: false}
+            ],
+            "scrollY": "200px",
+            "scrollCollapse": true,
+            "info": true,
+            "paging": true
+        });
+    });
 
-$.getJSON('http://mage1.dev/index.php/helloworld/index/customer', function (data) {
-console.log(data);
+    $.getJSON('http://mage1.dev/index.php/helloworld/index/customer', function (data) {
+        console.log(data);
 //        data.forEach(function (d) {
 //            var text = `entity_id: ${d.entity_id}
 //
@@ -522,44 +524,44 @@ console.log(data);
 //
 //
 //            $(".index").html(text);
-var i;
-var table = "<tr><th>ENTITY_ID</th><th>FIRSTNAME</th><th>LASTNAME</th><th>CHECKBOX</th></tr>";
-for (i = 0; i < data.length; i++) {
-table += "<tr><td>" +
-data[i]["entity_id"] +
-"</td><td>" +
-data[i]["firstname"] +
-"</td><td>" +
-data[i]["lastname"] +
-"</td><td>" +
-"<input class='cus' type='button'name='customer' style='width: 100px; margin: auto; display: block' value='Check Box' data-id=" + data[i]["entity_id"] + "></td></tr> "
-}
-jQuery("#customer").html(table);
-$(".cus").on('click', function () {
-var entity_id = $(this).data('id');
-var i;
-var table = "<tr><th>ENTITY_ID</th><th>FIRSTNAME</th><th>LASTNAME</th><th>EMAIL</th><th>GROUP_ID</th></tr>";
-for (i = 0; i < data.length; i++) {
-if (data[i]["entity_id"] == entity_id) {
+        var i;
+        var table = "<tr><th>ENTITY_ID</th><th>FIRSTNAME</th><th>LASTNAME</th><th>CHECKBOX</th></tr>";
+        for (i = 0; i < data.length; i++) {
+            table += "<tr><td>" +
+                data[i]["entity_id"] +
+                "</td><td>" +
+                data[i]["firstname"] +
+                "</td><td>" +
+                data[i]["lastname"] +
+                "</td><td>" +
+                "<input class='cus' type='button'name='customer' style='width: 100px; margin: auto; display: block' value='Check Box' data-id=" + data[i]["entity_id"] + "></td></tr> "
+        }
+        jQuery("#customer").html(table);
+        $(".cus").on('click', function () {
+            var entity_id = $(this).data('id');
+            var i;
+            var table = "<tr><th>ENTITY_ID</th><th>FIRSTNAME</th><th>LASTNAME</th><th>EMAIL</th><th>GROUP_ID</th></tr>";
+            for (i = 0; i < data.length; i++) {
+                if (data[i]["entity_id"] == entity_id) {
 //                    console.log(data[1]["entity_id"]);
-table += "<tr><td>" +
-data[i]["entity_id"] +
-"</td><td>" +
-data[i]["firstname"] +
-"</td><td>" +
-data[i]["lastname"] +
-"</td><td>" +
-data[i]["email"] +
-"</td><td>" +
-data[i]["group_id"] +
-"</td></tr>"
-}
-}
-jQuery("#customer_detail").html(table);
-jQuery("#customerdetail").html('CUSTOMER DETAIL')
-})
+                    table += "<tr><td>" +
+                        data[i]["entity_id"] +
+                        "</td><td>" +
+                        data[i]["firstname"] +
+                        "</td><td>" +
+                        data[i]["lastname"] +
+                        "</td><td>" +
+                        data[i]["email"] +
+                        "</td><td>" +
+                        data[i]["group_id"] +
+                        "</td></tr>"
+                }
+            }
+            jQuery("#customer_detail").html(table);
+            jQuery("#customerdetail").html('CUSTOMER DETAIL')
+        })
 
-})
+    })
 </script>
 <script>
     $.getJSON('http://mage1.dev/index.php/helloworld/index/product', function (data) {

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
 </head>
 
 <body>
@@ -72,9 +73,12 @@
             <button onclick="myFunctionShipping()" type="button" class="btn btn-info btn-lg">Shipping</button>
         </div>
     </header>
+    <div class="demo-post">
+
+    </div>
     <div class="maincontent">
         <div class="customer" id="div_customer" style="display: none" onload="getCustomer()">
-            <div class="">
+            <div class="row" style="margin-top: 30px">
                 <div class="customer">
                     <div class="title">
                         <h2 style="background-color: #5bc0de">CUSTOMER</h2>
@@ -87,6 +91,7 @@
                             <th style="width: 200px;">First Name</th>
                             <th style="text-align: center;">Last Name</th>
                             <th style="text-align: center;">Action</th>
+                            <th style="text-align: center;">Select Customer</th>
                         </tr>
                         </thead>
 
@@ -104,8 +109,8 @@
         </div>
 
         <div class="product" id="myDiv_product" style="display: none" onload="getProduct()">
-            <div class="row">
-                <div class="col-sm-8 product">
+            <div class="row" style="margin-top: 30px">
+                <div class="col-md-6 product">
                     <div class="title">
                         <h2 style="background-color: #5bc0de">PRODUCT</h2>
                     </div>
@@ -124,36 +129,57 @@
                         </thead>
                     </table>
                 </div>
-                <div class="col-sm-4 product">
+                <div class="col-md-6 product">
                     <div class="title">
                         <h2 style="background-color: #5bc0de" id="choosedproducts"></h2>
                     </div>
                     <table class="table table-bordered" id="choosed_products">
                     </table>
-                    <div class="checkout" id="myDiv_checkout" style="display: none" >
 
-                            First Name:<br>
-                            <input type="text" name="firstname" placeholder="First Name"><br>
-                            Last Name :<br>
-                            <input type="text" name="lastname" placeholder="Last Name"><br>
-                            Email :<br>
-                            <input type="text" name="email" placeholder="Email"><br>
-                            Address :<br>
-                            <input type="text" name="address" placeholder="Address"><br>
-                            Shipping Street :<br>
-                            <input type="text" name="shippingstreet" placeholder="Shipping Street"><br>
-                            Billding City :<br>
-                            <input type="text" name="billding" placeholder="Billding City"><br>
-                            Phone Number :<br>
-                            <input type="text" name="phonenumber" placeholder="Phone Number"><br><br>
-                            <input type="button" value="CHECK OUT">
-
-
-                    </div>
                 </div>
             </div>
         </div>
-        <div class="payment" id="div_payment" style="display: none">
+
+        <div class="checkout" id="myDiv_checkout" style="display: none" >
+            <table class="table table-bordered" id="table-checkout">
+                <tr>
+                    <td><strong>Email Customer:</strong></td>
+                    <td id="email-customer"></td>
+                </tr>
+                <tr>
+                    <td><strong>Customer ID</strong></td>
+                    <td id="customer-id"></td>
+                </tr>
+                <tr>
+                    <td><strong>Stored ID</strong></td>
+                    <td id="stored-id"></td>
+                </tr>
+                <tr>
+                    <td><strong>Name Product</strong></td>
+                    <td id="name-product"></td>
+                </tr>
+                <tr>
+                    <td><strong>Product Quanity</strong></td>
+                    <td id="product-quanity"></td>
+                </tr>
+                <tr>
+                    <td><strong>Payment Method</strong></td>
+                    <td id="payment-method"></td>
+                </tr>
+                <tr>
+                    <td><strong>Shipping Method</strong></td>
+                    <td id="shipping-method"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center"><input style="text-align: center; background-color: #d4d4aa" type="submit" onclick="load_data()" name="loadShippingtMethod" value="Load Shipping">
+                        <input style="text-align: center; margin-left: 30px; background-color: #d4d4aa" type="submit" onclick="createOrder()" name="Create Order" value="Creat Order"></td>
+
+                </tr>
+
+
+            </table>
+        </div>
+        <div class="payment" id="div_payment" style="display: none; margin-top: 30px">
             <div class="title">
                 <h2 style="background-color: #5bc0de">PAYMENT</h2>
             </div>
@@ -161,7 +187,7 @@
 
             </table>
         </div>
-        <div class="shipping" id="myDiv_shipping" style="display: none">
+        <div class="shipping" id="myDiv_shipping" style="display: none; margin-top: 30px">
             <div class="title">
                 <h2 style="background-color: #5bc0de">SHIPPING</h2>
             </div>
@@ -177,6 +203,15 @@
 
 </div>
 <script>
+  var customer_id=null;
+  var arr=[];
+  var arrIdProduct =[];
+  var arrnameproduct=[];
+  var quantity =1;
+  var paymentMethod ="cashondelivery";
+  var shippingMethod =1;
+  var storedId =1;
+  var createorder= 1;
     $(window).load(function () {
         // do something
 
@@ -195,12 +230,67 @@
         if (x.style.display === "none") {
             x.style.display = "block";
         } else {
-            x.style.display = "none";
+            x.style.display = "block";
         }
     }
-</script>
 
-<script>
+    function load_data() {
+      var text ='';
+      $.post("http://mage1.dev/createorder",
+             {
+               customer_id: customer_id,
+               storedId : storedId,
+               arrIdProduct: arrIdProduct,
+               quantity : quantity,
+               paymentMethod : paymentMethod,
+               shippingMethod : shippingMethod
+
+
+             }, function (data) {
+          data.forEach(function(d){
+                text+=`<p><input type="radio" name="shippingMethod" value="${d.code}"><b>Code: ${d.code}</b> <br/>Carrier_title: ${d.carrier_title} &nbsp ${d.method_title}<br/> Price: ${d.price}</p>`;
+                $(".demo-post").html(text);
+          })
+        }
+      );
+
+
+    }
+  function createOrder() {
+    var text ='';
+    $.post("http://mage1.dev/createorder",
+           {
+             customer_id: customer_id,
+             storedId : storedId,
+             arrIdProduct: arrIdProduct,
+             quantity : quantity,
+             paymentMethod : paymentMethod,
+             shippingMethod : shippingMethod,
+             creatorder: createorder
+
+           }, function (data) {
+        data.forEach(function(d){
+          console.log("ssssss");
+
+
+          $(".demo-post").html("susscess");
+        })
+      }
+    );
+
+
+  }
+
+        $('.demo-post').on('change', function () {
+          var val =$('input[name=shippingMethod]:checked').val();
+
+          jQuery("#shipping-method").html(val);
+          shippingMethod =val;
+        });
+
+
+
+
     function getCustomer() {
         customertable.clear();
         jQuery.ajax({
@@ -232,7 +322,7 @@
         }
         ;
 
-//
+
 //        customers = toObject(customers);
 //        console.log(typeof customers);
         jQuery.each(customers, function (kos, customer) {
@@ -297,15 +387,21 @@
             "searching": true,
             'bSort': false,
             'aoColumns': [
-                {sWidth: "45%", bSearchable: true, bSortable: false},
-                {sWidth: "45%", bSearchable: true, bSortable: false},
                 {sWidth: "10%", bSearchable: true, bSortable: false},
+                {sWidth: "10%", bSearchable: true, bSortable: false},
+                {sWidth: "20%", bSearchable: true, bSortable: false},
 
                 {
                     "className": 'details-control',
                     "orderable": false,
                     "data": null,
                     "defaultContent": ''
+                },
+                {
+                    "className": 'select-customer',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": "<button onclick='myFunctionCheckout()' style='background-color: #d4d4aa'>Select Customer</button>"
                 }
             ],
             "scrollCollapse": true,
@@ -334,17 +430,33 @@
             tr.addClass('shown');
         }
     });
+    // choose customer
+    $('#customer').on('click','.select-customer', function () {
+        var tr =$(this).closest('tr');
+        var row =customertable.row(tr);
+        customer_id =row.data()[0];
+        var email =row.data()[3];
+
+        console.log(email);
+        jQuery("#email-customer").html(email);
+        jQuery("#customer-id").html(customer_id);
+        var storeID = 1;
+        jQuery("#storeid").val(storeID);
+
+
+    })
 
 
 
 
 
-</script>
 
 
+    jQuery("#product-quanity").html(quantity);
+    jQuery("#payment-method").html(paymentMethod);
+    jQuery("#shipping-method").html(shippingMethod);
+    jQuery("#stored-id").html(storedId);
 
-<script>
-    var arr=[];
     $(window).load(function () {
         producttable.clear();
         getProduct();
@@ -408,11 +520,11 @@
             "searching": true,
             'bSort': false,
             'aoColumns': [
-                {sWidth: "5%", bSearchable: true, bSortable: false},
-                {sWidth: "5%", bSearchable: true, bSortable: false},
-                {sWidth: "40%", bSearchable: true, bSortable: false},
-                {sWidth: "30%", bSearchable: true, bSortable: false},
-                {sWidth: "20%", bSearchable: true, bSortable: false},
+                {bSearchable: true, bSortable: false},
+                {bSearchable: true, bSortable: false},
+                {bSearchable: true, bSortable: false},
+                {bSearchable: true, bSortable: false},
+                {bSearchable: true, bSortable: false},
                 {
                     "className": 'details-control',
                     "orderable": false,
@@ -423,7 +535,7 @@
                     "className": 'add-to-cart',
                     "orderable": false,
                     "data": null,
-                    "defaultContent": "<button>Add To Cart</button>"
+                    "defaultContent": "<button style='background-color: #d4d4aa'>Add To Cart</button>"
                 }
 
             ],
@@ -477,6 +589,7 @@
         }
     });
     $('#product').on('click','.add-to-cart', function () {
+
         var tr =$(this).closest('tr');
         var row =producttable.row(tr);
         var obj =new Object();
@@ -486,6 +599,16 @@
         obj.sku =row.data()[3];
         obj.price =row.data()[4];
         arr.push(obj);
+        //lấy tên và id product đã đc chọn
+        arrnameproduct.push(obj.name);
+        arrIdProduct.push(obj.entity_id);
+        console.log(arrIdProduct);
+        text =arrnameproduct.toString();
+
+        jQuery("#name-product").html(text);
+
+
+
         var i;
         var table = "<tr><th>ENTITY_ID</th><th>TYPE_ID</th><th>NAME</th><th>SKU</th><th>PRICE</th><th>Action</th></tr>";
         for (i = 0; i < arr.length; i++) {
@@ -500,10 +623,12 @@
                 "</td><td>" +
                 arr[i]["price"] +
                 "</td><td>" +
-                    "<input type='button' value='REMOVE' class='remove'>"
+                    "<input type='button' value='REMOVE' class='remove' style='background-color: #d4d4aa'>"
                 "</td></tr>"
+
         }
-        table += "<tr><td style='text-align: center' onclick='myFunctionCheckout()' colspan='5'><input type='button' style='background-color: #d4d4aa' name='checkout' value='CHECK OUT'></td></tr> ";
+
+        table += '<tr><td style="text-align: center"  colspan="6"><input type="button" style="background-color: #d4d4aa" name="checkout" value="CHECK OUT"></td></tr> ';
         jQuery("#choosed_products").html(table);
         jQuery("#choosedproducts").html('CHOOSED PRODUCTS')
         $('#choosed_products').on('click','.remove', function () {
@@ -517,10 +642,6 @@
 
     })
 
-
-</script>
-
-<script>
 
     function myFunctionPayment() {
         var x = document.getElementById("div_payment");
@@ -546,8 +667,7 @@
         console.log(table);
         jQuery("#payment").html(table);
     });
-</script>
-<script>
+
     function myFunctionShipping() {
         var x = document.getElementById("myDiv_shipping");
         if (x.style.display === "none") {
